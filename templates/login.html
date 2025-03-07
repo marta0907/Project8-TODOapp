@@ -1,0 +1,48 @@
+{% from "bootstrap5/form.html" import render_form %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Lists</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body style="background-image: url('../static/images/login_background.png')">
+
+<div class="container" style="margin-top: 80px">
+          <h1 class="title">Welcome back</h1>
+            <hr>
+          <h2 class="subtitle" style="margin-bottom:50px">Your lists are here!</h2>
+
+{%with messages=get_flashed_messages(with_categories=true)%}
+        {%if messages%}
+        {%for category, message in messages%}
+        <p class="{{category}}, flash">{{message}}</p>
+        {%endfor%}
+        {%endif%}
+{%endwith%}
+
+<main class="mb-4" style="font-family: 'Catchy Mager', serif">
+    <div class="row" style="width:300px">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <form method="POST" action="{{ url_for('login') }}">
+          {{ form.hidden_tag() }}
+
+          <div class="form-group mb-3" style="margin-bottom:20px">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control") }}
+          </div>
+          <div class="form-group mb-3" style="margin-bottom:20px">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control") }}
+          </div>
+            <div class="buttons">
+                <button type="submit" class="btn" style="color: white; background: rgba(169, 28, 51, 0.7);">LOG IN</button>
+            </div>
+        </form>
+      </div>
+    </div>
+</main>
+</div>
+</body>
+</html>

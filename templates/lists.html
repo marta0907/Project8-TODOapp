@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <a href="{{ url_for('create_list')}}" class="btn" style="font-size:1.3rem">+ Add New List</a>
+
+    {% if grouped_lists %}
+    <div class="form-container" style="margin:0px;">
+        <ul style="padding-inline-start: 0px;">
+            {% for month_year, lists in grouped_lists.items() %}
+                <div class="month-group">
+                    <li class="bullet" style="align-items:flex-start; flex-direction:column">
+                        <span class="subtitle-list" onclick="toggleLists('{{ month_year }}')">
+                            {{ month_year }}</span>
+                        <a class="sub-subtitle">Completed lists vs. Total number of lists: <b>{{completed_lists}}/{{number_of_lists}}</b></a>
+                    </li>
+                    <hr style="width:100%;border: 0.01em solid white;">
+                    <div id="{{ month_year }}" class="list-items" style="display: none;">
+                        {% for list in lists %}
+                            <div class="list-name" style="flex-direction:row; width:100%;">
+                                <li class="bullet">
+                                    <span style="width:70%">
+                                        {% if list.is_done() %}
+                                            <span style="text-decoration:line-through; color:green;">{{ list.title }} (DONE)</span>
+                                        {% else %}
+                                            {{ list.title }}
+                                        {% endif %}
+                                    </span>
+
+
+                                    <a href="{{ url_for('view_list', list_id=list.id) }}" class="btn-view">View List</a>
+                                    <form method="POST" action="{{ url_for('delete_list', list_id=list.id)}}">
+                                        <button type="submit" class="remove-button" onclick="return confirm('Are you sure you want to delete this list?')">DELETE</button>
+                                    </form>
+                                    <span style="width:100px"> {{ list.task_completed() }}</span>
+                                    <br>
+                                </li>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    // Toggle the visibility of the lists for each month
+    function toggleLists(monthYear) {
+        var listContainer = document.getElementById(monthYear);
+        if (listContainer.style.display === "none") {
+            listContainer.style.display = "block";
+        } else {
+            listContainer.style.display = "none";
+        }
+    }
+</script>
+{% endblock %}

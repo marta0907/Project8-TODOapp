@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+        <div class="container-create" style="display:flex; align-items: center;">
+            <h2 class="subtitle" >Create a New List</h2>
+        </div>
+        <div class="form-container">
+            <form method="POST" style="width: 100%">
+                <div class="container-create">
+                    <div class="list-name" style="width:100%">
+                        <label for="title">List Title:</label>
+                        <input type="text" name="title" id="title" value="new list {{date}}" required>
+                    </div>
+                <br>
+                    <div class="list-name">Tasks:</div>
+                    <div id="tasks-container">
+                        <ul id="task-list"></ul>
+                    </div>
+                <div class="mobile-add">
+                    <button type="button" onclick="addTask()" class="btn">+ ADD TASK</button>
+                </div>
+        </div>
+            <div class="container">
+                <button type="submit" class="save-button">SAVE</button>
+            </div>
+            </form>
+        <div class="container">
+        <a href="{{ url_for('lists') }}" class="btn" style="width:100px;">CANCEL</a>
+        </div>
+        </div>
+
+<script>
+    function addTask() {
+        const container = document.getElementById("task-list");
+        const taskDiv = document.createElement("li");
+        taskDiv.classList.add("task-item");
+
+        taskDiv.innerHTML = `
+            <input type="checkbox" class="task-checkbox" name="task-done">
+            <input type="text" name="task-name[]" required placeholder="Task Name">
+
+            <button type="button" onclick="removeTask(this)" class="remove-button">REMOVE</button>
+            <br>
+        `;
+
+        container.appendChild(taskDiv);
+    }
+
+    function removeTask(button) {
+        button.parentElement.remove();
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Lists</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body style="background-image: url('/static/images/background.png')">
+    <div class="container">
+        <h3 class="welcome">WELCOME TO</h3>
+        <img class="logo" src="../static/images/logo.png">
+        <h1 class="title">Your Lists</h1>
+        <hr>
+        <h2 class="subtitle">All your TODOs</h2>
+        <div class="buttons">
+            <a href="{{ url_for('login') }}" class="btn">LOG IN</a>
+            <a href="{{ url_for('register') }}" class="btn">REGISTER</a>
+        </div>
+    </div>
+</body>
+</html>

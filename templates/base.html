@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{user_name}}'s Lists</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body style="{% if request.endpoint == 'create_list' %}
+        background-image: url('{{ url_for('static', filename='images/bkg1.png') }}');
+    {% elif request.endpoint == 'view_list' %}
+        background-image: url('{{ url_for('static', filename='images/bkg2.png') }}');
+    {% elif request.endpoint == 'lists' %}
+        background-image: url('{{ url_for('static', filename='images/bkg3.png') }}');
+    {% else %}
+        background-image: url('{{ url_for('static', filename='images/bkg4.png') }}');
+    {% endif %}
+">
+
+        <div class="buttons-header">
+            <a href="{{ url_for('logout') }}" class="btn-logout">Log Out</a>
+        </div>
+        <div class="container">
+            <h1 class="title">{{user_name}}'s Lists</h1>
+            <hr style="width: 50%;">
+            </div>
+
+    <div class="container">
+        <!-- Display Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <!-- Content of the page -->
+        </div>
+        {% block content %}{% endblock %}
+
+</body>
+</html>

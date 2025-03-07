@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="subtitle">{{ todo_list.title }}</h2>
+
+    <form class="form-media" method="POST">
+        <div class="form-container" style="margin:0px; width:100%;">
+        {% for task in todo_list.tasks %}
+            <div class="bullet">
+                <!-- Checkbox to mark task as Done -->
+                <input type="checkbox" class="task-checkbox" name="task_done_{{ task.id }}" id="task-{{ task.id }}"
+                {% if task.status == 'Done' %}checked{% endif %} onchange="toggleTask({{ task.id }})">
+
+                <!-- Task content -->
+                <label class="task-text" for="task-{{ task.id }}" id="task-label-{{ task.id }}"
+                    {% if task.status == 'Done' %}style="text-decoration: line-through;"{% elif task.status == 'In Progress' %}style="color: green;"{% endif %}>
+                    {{ task.content }}
+                </label>
+
+                <!-- Status dropdown -->
+                <select name="status_{{ task.id }}" class="task-status" id="status-{{ task.id }}" onchange="updateTaskStatus({{ task.id }})">
+                    <option value="Not Started" {% if task.status == 'Not Started' %}selected{% endif %}>Not Started</option>
+                    <option value="In Progress" {% if task.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                    <option value="Done" {% if task.status == 'Done' %}selected{% endif %}>Done</option>
+                </select>
+            </div>
+            <br>
+        {% endfor %}
+        </div>
+
+        <!-- Save and Cancel Buttons -->
+        <div class="container">
+            <button type="submit" class="save-button">Save Changes</button>
+        </div>
+    </form>
+    <a href="{{ url_for('lists') }}" class="btn" style="width:100px;">CANCEL</a>
+</div>
+
+<!-- JavaScript for real-time updates -->
+<script>
+    function toggleTask(taskId) {
+        let checkbox = document.getElementById("task-" + taskId);
+        let label = document.getElementById("task-label-" + taskId);
+        let statusDropdown = document.getElementById("status-" + taskId);
+
+        if (checkbox.checked) {
+            label.style.textDecoration = "line-through";
+            label.style.color = "black"; // Ensure it's not green when done
+            statusDropdown.value = "Done";
+        } else {
+            label.style.textDecoration = "none";
+            label.style.color = "black"; // Reset color
+            statusDropdown.value = "Not Started";
+        }
+    }
+
+    function updateTaskStatus(taskId) {
+        let statusDropdown = document.getElementById("status-" + taskId);
+        let label = document.getElementById("task-label-" + taskId);
+        let checkbox = document.getElementById("task-" + taskId);
+
+        if (statusDropdown.value === "Done") {
+            label.style.textDecoration = "line-through";
+            label.style.color = "black"; // Ensure it's not green
+            checkbox.checked = true;
+        } else if (statusDropdown.value === "In Progress") {
+            label.style.textDecoration = "none";
+            label.style.color = "green"; // Make text green
+            checkbox.checked = false;
+        } else {
+            label.style.textDecoration = "none";
+            label.style.color = "black"; // Reset color
+            checkbox.checked = false;
+        }
+    }
+</script>
+
+{% endblock %}
